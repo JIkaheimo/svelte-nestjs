@@ -1,0 +1,15 @@
+{
+  "name": "mycv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "JIkaheimo <jaakko.o.ikaheimo@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "npmClient": "yarn"
+}
