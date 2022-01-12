@@ -8,11 +8,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { AuthenticationService } from '../services/AuthenticationService';
-import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
-import { RegistrationData } from '../dtos/RegistrationData';
-import { LocalAuthenticationGuard } from '../guards/LocalAuthenticationGuard';
-import { JwtAuthenticationGuard } from '../guards/JwtAuthenticationGuard';
+import {
+  AuthenticatedRequest,
+  RegistrationData,
+  JwtAuthenticationGuard,
+  LocalAuthenticationGuard,
+  AuthenticationService,
+} from '..';
 
 @Controller('auth')
 export class AuthenticationController {

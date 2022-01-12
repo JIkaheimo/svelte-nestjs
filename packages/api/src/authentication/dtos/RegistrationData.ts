@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
-import { User } from 'src/users/entities/User';
-import { UniqueOnDatabase } from '../../validators';
+import { User } from 'src/users';
+import { UniqueOnDatabase } from 'src/validators';
 
 export class RegistrationData {
   @IsEmail()

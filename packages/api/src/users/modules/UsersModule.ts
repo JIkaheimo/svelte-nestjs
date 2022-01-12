@@ -3,9 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { FilesModule, PrivateFilesModule } from 'src/files';
 
-import { UsersController } from '../controllers/UsersController';
-import { UsersService } from '../services/UsersService';
-import { User } from '../entities/User';
+import { UsersController, UsersService, User } from '..';
 
 @Module({
   controllers: [UsersController],

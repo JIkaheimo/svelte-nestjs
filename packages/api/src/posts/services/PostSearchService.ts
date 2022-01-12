@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 
-import { Post } from '../entities';
-import { PostSearch, PostSearchResult } from '../types';
+import { PostSearch, PostSearchResult, Post } from '..';
 
 @Injectable()
 export class PostsSearchService {

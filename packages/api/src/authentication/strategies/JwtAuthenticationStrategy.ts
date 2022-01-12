@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 
 import { UsersService } from 'src/users';
+
 import { JwtPayload } from '..';
 
 @Injectable()

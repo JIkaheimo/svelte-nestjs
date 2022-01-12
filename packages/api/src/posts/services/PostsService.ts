@@ -1,9 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, In } from 'typeorm';
 
-import { PostsSearchService } from './PostSearchService';
 import { BaseRepositoryService } from 'src/base';
-import { Post } from '../entities';
+
+import { PostsSearchService } from './PostSearchService';
+import { Post } from '..';
 
 export class PostsService extends BaseRepositoryService<Post> {
   constructor(
@@ -15,7 +16,7 @@ export class PostsService extends BaseRepositoryService<Post> {
 
   async create(postData: DeepPartial<Post>) {
     const newPost = await super.create(postData);
-    this.searchService.indexPost(newPost);
+    await this.searchService.indexPost(newPost);
     return newPost;
   }
 

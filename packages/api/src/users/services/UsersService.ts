@@ -18,7 +18,7 @@ export class UsersService extends BaseRepositoryService<User> {
   /**
    * Returns the user with the given email.
    */
-  async findByEmail(email: string): Promise<User> {
+  async findByEmail(email: User['email']): Promise<User> {
     return (await this.repository.findOne({ email })) ?? null;
   }
 

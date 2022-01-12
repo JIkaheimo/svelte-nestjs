@@ -1,6 +1,6 @@
 import { IBaseRepositoryService } from 'src/base';
 import { Readable } from 'stream';
-import { File } from '../../entities';
+import { File } from 'src/files/entities';
 
 export interface GetFileResult<FileLike extends File> {
   stream: Readable;

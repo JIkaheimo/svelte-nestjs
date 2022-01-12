@@ -1,6 +1,9 @@
 import { Exclude } from 'class-transformer';
-import { User } from 'src/users/entities/User';
 import { Entity, ManyToOne } from 'typeorm';
+
+// ! Circular dependency if accessing by src/users
+import { User } from 'src/users/entities';
+
 import { File } from './File';
 
 @Entity()

@@ -6,12 +6,3 @@ export interface PostSearch {
   content: Post['content'];
   authorId: Post['author']['id'];
 }
-
-export interface PostSearchResult {
-  hits: {
-    total: number;
-    hits: Array<{
-      _source: PostSearch;
-    }>;
-  };
-}

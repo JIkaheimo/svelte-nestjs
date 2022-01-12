@@ -1,2 +1,3 @@
-export * from './post-search.types';
-export * from './post.types';
+export * from './IPost';
+export * from './PostSearch';
+export * from './PostSearchResult';
