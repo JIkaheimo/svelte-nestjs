@@ -1,2 +1,3 @@
-export * from './posts.module';
-export * from './posts.types';
+export * from './entities';
+export * from './services';
+export * from './types';

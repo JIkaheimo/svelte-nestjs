@@ -1,0 +1,30 @@
+###
+GET http://localhost:3030/api/posts
+Set-Cookie: Authentication=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjVkNDQ4YS0zYmRhLTQzOWMtYTYzZi0xOTIzZTY2ZjBlNTIiLCJpYXQiOjE2NDE1MDExNjV9.ceSBP3cM13ZFvyuGDYdUvVLFHnvW5fVwtgS_ZDal1Tc; HttpOnly; Path=/;
+
+###
+GET http://localhost:3030/api/posts/d2e1f635-e5d0-430d-877f-71e0d0188921
+Set-Cookie: Authentication=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjVkNDQ4YS0zYmRhLTQzOWMtYTYzZi0xOTIzZTY2ZjBlNTIiLCJpYXQiOjE2NDE1MDExNjV9.ceSBP3cM13ZFvyuGDYdUvVLFHnvW5fVwtgS_ZDal1Tc; HttpOnly; Path=/;
+
+
+###
+POST http://localhost:3030/api/posts
+Content-Type: application/json
+
+{
+  "title": "Title",
+  "content": "asasdasd"
+}
+
+###
+
+PUT http://localhost:3030/api/posts/d2e1f635-e5d0-430d-877f-71e0d0188921
+Content-Type: application/json
+
+{
+  "title": "Title",
+  "content": "addasd"
+}
+
+###
+DELETE http://localhost:3030/api/posts/d2e1f635-e5d0-430d-877f-71e0d0188921

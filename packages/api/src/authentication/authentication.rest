@@ -1,0 +1,24 @@
+POST http://localhost:3030/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "asdasaasadasasdasddsdaasdsdasasdasddasasdadasasasdd",
+  "email": "asdasaasaaasdasdsdaasdsdaasdsdaaaasdasdaasdasassddas@test.com",
+  "password": "ASASDASasdDASDAS",
+  "address": {
+    "city": "asd"
+  }
+}
+
+###
+POST http://localhost:3030/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "asdasaasadasasdasddsdaasdsdasasdasddasasdadasasasdd",
+  "email": "asdasaasaaasdasdsdaasdsdaasdsdaaaasdasdaasdasassddas@test.com",
+  "password": "ASASDASasdDASDAS"
+}
+
+###
+POST http://localhost:3030/api/auth/logout

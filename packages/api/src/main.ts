@@ -1,9 +1,13 @@
+import './globals';
+import { AppModule } from './AppModule';
+import { createDocument } from './swagger';
+import { SwaggerModule } from '@nestjs/swagger';
+import setupApp from './app';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
-  await app.listen(3030);
+  const app = setupApp(await NestFactory.create(AppModule));
+  SwaggerModule.setup('api/documentation', app, createDocument(app));
+  await app.setGlobalPrefix('api').listen(3030);
 }
 bootstrap();
