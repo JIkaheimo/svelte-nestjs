@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/modules/UsersModule';
+import { UsersModule } from './users/modules/users.module';
 import { ReportsModule } from './reports/modules/ReportsModule';
 import { AuthenticationModule } from './authentication/modules/AuthenticationModule';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -7,7 +7,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import ExceptionsLoggerFilter from './utils/exceptions.logger.filter';
 import { APP_FILTER } from '@nestjs/core';
-import { PostsModule } from './posts/modules/PostsModule';
+import { PostsModule } from './posts/modules/posts.module';
 import DatabaseModule from './database';
 import ConfigModule from './config';
 

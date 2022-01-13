@@ -5,7 +5,7 @@ import { BaseEntity } from 'src/base';
 import { Post } from 'src/posts';
 import { PrivateFile, File } from 'src/files';
 
-import Address from './Address';
+import Address from './address.entity';
 
 @Entity()
 export class User extends BaseEntity {

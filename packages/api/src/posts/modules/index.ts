@@ -1,2 +1,2 @@
-export * from './CategoriesModule';
-export * from './PostsModule';
+export * from './categories.module';
+export * from './posts.module';

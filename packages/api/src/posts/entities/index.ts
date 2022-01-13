@@ -1,2 +1,2 @@
-export * from './Category';
-export * from './Post';
+export * from './category.entity';
+export * from './post.entity';

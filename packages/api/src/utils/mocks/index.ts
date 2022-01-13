@@ -1,2 +1,2 @@
-export * from './ConfigServiceMock';
-export * from './JwtServiceMock';
+export * from './config.service.mock';
+export * from './jwt.service.mock';

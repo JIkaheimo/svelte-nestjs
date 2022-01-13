@@ -1,1 +1,1 @@
-export * from './BaseRepositoryService';
+export * from './base-repository.service';

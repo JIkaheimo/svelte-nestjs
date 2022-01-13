@@ -3,7 +3,7 @@ import { DeepPartial, In } from 'typeorm';
 
 import { BaseRepositoryService } from 'src/base';
 
-import { PostsSearchService } from './PostSearchService';
+import { PostsSearchService } from './post-search.service';
 import { Post } from '..';
 
 export class PostsService extends BaseRepositoryService<Post> {

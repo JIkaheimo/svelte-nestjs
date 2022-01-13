@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import Post from '../entities/Post';
+import Post from '../entities/post.entity';
 
 export class PostCreate {
   @IsString()

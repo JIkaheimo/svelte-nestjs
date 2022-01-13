@@ -1,1 +1,1 @@
-export * from './RegistrationData';
+export * from './registration-data.dto';

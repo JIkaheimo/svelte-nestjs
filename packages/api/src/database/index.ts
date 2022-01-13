@@ -1,4 +1,4 @@
-import { DatabaseModule } from './DatabaseModule';
+import { DatabaseModule } from './database.module';
 
 export { DatabaseModule };
 

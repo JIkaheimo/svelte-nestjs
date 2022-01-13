@@ -1,5 +1,5 @@
 import { define } from 'typeorm-seeding';
-import Category from '../entities/Category';
+import Category from '../entities/category.entity';
 
 define(Category, (faker) =>
   Category.create({

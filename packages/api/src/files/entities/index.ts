@@ -1,2 +1,2 @@
-export * from './File';
-export * from './PrivateFile';
+export * from './file.entity';
+export * from './private-file.entity';

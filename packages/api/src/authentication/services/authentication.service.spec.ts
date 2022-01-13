@@ -1,4 +1,4 @@
-import { AuthenticationService } from './AuthenticationService';
+import { AuthenticationService } from './authentication.service';
 import { User, UsersService } from 'src/users';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';

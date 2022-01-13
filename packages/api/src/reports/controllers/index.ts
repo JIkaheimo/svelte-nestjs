@@ -1,1 +1,1 @@
-export * from './ReportsController';
+export * from './reports.controller';

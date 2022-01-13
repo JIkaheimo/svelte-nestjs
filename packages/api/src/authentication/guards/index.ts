@@ -1,2 +1,2 @@
-export * from './JwtAuthenticationGuard';
-export * from './LocalAuthenticationGuard';
+export * from './jwt-authentication.guard';
+export * from './local-authentication.guard';

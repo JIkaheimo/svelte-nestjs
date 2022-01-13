@@ -1,2 +1,2 @@
-export * from './CategoriesController';
-export * from './PostsController';
+export * from './categories.controller';
+export * from './posts.controller';

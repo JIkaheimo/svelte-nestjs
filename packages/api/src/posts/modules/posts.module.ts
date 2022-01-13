@@ -5,7 +5,7 @@ import ElasticModule from 'src/search/elastic/elastic.module';
 
 import { Post } from '../entities';
 import { CategoriesController, PostsController } from '../controllers';
-import CategoriesModule from './CategoriesModule';
+import CategoriesModule from './categories.module';
 import { PostsSearchService, PostsService } from '../services';
 
 @Module({

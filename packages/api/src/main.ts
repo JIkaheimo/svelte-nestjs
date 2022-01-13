@@ -1,5 +1,5 @@
 import './globals';
-import { AppModule } from './AppModule';
+import { AppModule } from './app.module';
 import { createDocument } from './swagger';
 import { SwaggerModule } from '@nestjs/swagger';
 import setupApp from './app';

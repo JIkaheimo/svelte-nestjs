@@ -1,4 +1,4 @@
-import { ConfigModule } from './ConfigModule';
+import { ConfigModule } from './config.module';
 
 export { ConfigModule };
 

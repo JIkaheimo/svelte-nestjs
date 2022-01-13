@@ -1,7 +1,7 @@
 import { BaseEntity } from 'src/base';
 import { Column, Entity, Index, OneToOne } from 'typeorm';
 
-import { User } from './User';
+import { User } from './user.entity';
 
 @Entity()
 @Index(['street', 'city', 'country'], { unique: true })

@@ -8,7 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ConfigServiceMock, JwtServiceMock } from 'src/utils/mocks';
 
-import { RegistrationData } from './dtos/RegistrationData';
+import { RegistrationData } from './dtos/registration-data.dto';
 import { AuthenticationModule } from './modules/AuthenticationModule';
 import { entities, User } from 'src/entities';
 import { getRepository, Repository } from 'typeorm';

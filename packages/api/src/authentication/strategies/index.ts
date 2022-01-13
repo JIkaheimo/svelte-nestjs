@@ -1,2 +1,2 @@
-export * from './JwtAuthenticationStrategy';
-export * from './LocalAuthenticationStrategy';
+export * from './jwt-authentication.strategy';
+export * from './local-authentication.strategy';

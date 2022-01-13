@@ -1,2 +1,2 @@
-export * from './FilesService';
-export * from './PrivateFilesService';
+export * from './files.service';
+export * from './private-files.service';

@@ -1,3 +1,3 @@
-export * from './PostSearchService';
-export * from './CategoriesService';
-export * from './PostsService';
+export * from './post-search.service';
+export * from './categories.service';
+export * from './posts.service';

@@ -1,7 +1,7 @@
 import { ClassSerializerInterceptor, INestApplication } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
-import { ValidationPipe } from './core/pipe/ValidationPipe';
+import { ValidationPipe } from './core/pipe/validation.pipe';
 
 export const setupApp = (app: INestApplication): INestApplication =>
   app

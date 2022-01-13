@@ -1,6 +1,6 @@
-import BaseEntity from '../../base/entities/BaseEntity';
+import BaseEntity from '../../base/entities/base.entity';
 import { Column, Entity, ManyToMany } from 'typeorm';
-import Post from './Post';
+import Post from './post.entity';
 
 @Entity()
 export class Category extends BaseEntity {

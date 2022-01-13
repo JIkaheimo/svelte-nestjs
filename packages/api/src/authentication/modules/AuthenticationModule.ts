@@ -3,12 +3,12 @@ import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
-import { UsersModule } from 'src/users/modules/UsersModule';
+import { UsersModule } from 'src/users/modules/users.module';
 
-import { AuthenticationService } from '../services/AuthenticationService';
-import { LocalAuthenticationStrategy } from '../strategies/LocalAuthenticationStrategy';
-import { JwtAuthenticationStrategy } from '../strategies/JwtAuthenticationStrategy';
-import { AuthenticationController } from '../controllers/AuthenticationController';
+import { AuthenticationService } from '../services/authentication.service';
+import { LocalAuthenticationStrategy } from '../strategies/local-authentication.strategy';
+import { JwtAuthenticationStrategy } from '../strategies/jwt-authentication.strategy';
+import { AuthenticationController } from '../controllers/authentication.controller';
 
 const jwtModule = () =>
   JwtModule.registerAsync({

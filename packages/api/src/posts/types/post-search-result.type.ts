@@ -1,4 +1,4 @@
-import { PostSearch } from './PostSearch';
+import { PostSearch } from './post-search.type';
 
 export interface PostSearchResult {
   hits: {
