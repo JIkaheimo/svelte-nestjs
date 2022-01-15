@@ -1,3 +1,4 @@
+import { Comment } from 'src/comments/entities';
 import BaseEntity from 'src/core/entities/base.entity';
 import { User } from 'src/users/entities';
 import {
@@ -7,6 +8,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import Category from './category.entity';
 
@@ -38,6 +40,9 @@ export class Post extends BaseEntity {
   @ManyToMany(() => Category, (category) => category.posts)
   @JoinTable()
   categories: Category[];
+
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 }
 
 export default Post;
