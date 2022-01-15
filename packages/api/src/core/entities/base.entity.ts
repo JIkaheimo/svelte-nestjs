@@ -1,13 +1,21 @@
 import {
-  PrimaryGeneratedColumn,
   BaseEntity as Base,
+  CreateDateColumn,
   getConnection,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { RelationMetadata } from 'typeorm/metadata/RelationMetadata';
 
 export abstract class BaseEntity extends Base {
-  @PrimaryGeneratedColumn('uuid')
-  id?: string;
+  @PrimaryGeneratedColumn()
+  id?: number;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 
   async load(relations: string | string[]): Promise<this> {
     const model = this.constructor.name;

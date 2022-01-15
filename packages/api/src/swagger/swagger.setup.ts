@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
-
 import SwaggerConfig from './swagger.config';
 
 export const createDocument = (app: INestApplication): OpenAPIObject => {

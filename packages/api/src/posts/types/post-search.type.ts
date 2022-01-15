@@ -5,4 +5,5 @@ export interface PostSearch {
   title: Post['title'];
   content: Post['content'];
   authorId: Post['author']['id'];
+  paragraphs: Post['paragraphs'];
 }

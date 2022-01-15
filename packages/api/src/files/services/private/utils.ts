@@ -1,12 +1,12 @@
-import s3Client from 'src/aws/s3/client';
-import { IFilesService } from './types';
-import { v4 as uuid } from 'uuid';
-import { File } from '../../entities';
-import { DeepPartial } from 'typeorm';
-import { GetFileResult } from '.';
-import { Readable } from 'stream';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import s3Client from 'src/aws/s3/client';
+import { Readable } from 'stream';
+import { DeepPartial, EntityManager, EntityTarget } from 'typeorm';
+import { v4 as uuid } from 'uuid';
+import { GetFileResult } from '.';
+import { File } from '../../entities';
+import { IFilesService } from './types';
 
 export const createFileGetter =
   <FileLike extends File>(service: IFilesService<FileLike>) =>
@@ -58,7 +58,7 @@ export const createFileUploader =
     } as DeepPartial<FileLike>);
   };
 
-export const createFileDeleter =
+export const createFileRemover =
   <FileLike extends File>(service: IFilesService<FileLike>) =>
   async (fileId: FileLike['id']) => {
     const file = await service.findById(fileId);
@@ -71,4 +71,23 @@ export const createFileDeleter =
 
     // Delete the file from database.
     await service.delete(fileId);
+  };
+
+export const createFileRemoverTransaction =
+  <FileLike extends File>(
+    service: IFilesService<FileLike>,
+    entity: EntityTarget<FileLike>,
+  ) =>
+  async (fileId: FileLike['id'], entityManager: EntityManager) => {
+    const file = await entityManager.findOne(entity, fileId);
+
+    // Delete the file from S3.
+    await s3Client.deleteObject({
+      Bucket: service.bucket,
+      Key: file.key,
+    });
+
+    // Delete the file from database.
+    await entityManager.delete(entity, fileId);
+    return;
   };

@@ -1,6 +1,7 @@
-import { IBaseRepositoryService } from 'src/base';
-import { Readable } from 'stream';
+import { IBaseRepositoryService } from 'src/core/services/private';
 import { File } from 'src/files/entities';
+import { Readable } from 'stream';
+import { EntityManager } from 'typeorm';
 
 export interface GetFileResult<FileLike extends File> {
   stream: Readable;
@@ -23,6 +24,11 @@ export type DeleteFile<FileLike extends File> = (
   fileId: FileLike['id'],
 ) => Promise<void>;
 
+export type DeleteFileTransaction<FileLike extends File> = (
+  fileId: FileLike['id'],
+  entityManager: EntityManager,
+) => Promise<void>;
+
 export interface IFilesService<FileLike extends File>
   extends IBaseRepositoryService<FileLike> {
   bucket: string;
@@ -31,4 +37,7 @@ export interface IFilesService<FileLike extends File>
   getFileUrl: GetFileUrl<FileLike>;
   uploadFile: UploadFile<FileLike>;
   deleteFile: DeleteFile<FileLike>;
+  deleteFileTransaction: DeleteFileTransaction<FileLike>;
 }
+
+export default IFilesService;

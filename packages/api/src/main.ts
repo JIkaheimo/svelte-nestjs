@@ -1,9 +1,8 @@
-import './globals';
-import { AppModule } from './app.module';
-import { createDocument } from './swagger';
+import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import setupApp from './app';
-import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { createDocument } from './swagger';
 
 async function bootstrap() {
   const app = setupApp(await NestFactory.create(AppModule));

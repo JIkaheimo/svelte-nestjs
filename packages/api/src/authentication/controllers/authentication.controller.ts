@@ -7,46 +7,65 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-
+import { ApiTags } from '@nestjs/swagger';
+import { UsersService } from 'src/users';
 import {
   AuthenticatedRequest,
-  RegistrationData,
-  JwtAuthenticationGuard,
-  LocalAuthenticationGuard,
   AuthenticationService,
+  JwtAuthenticationGuard,
+  JwtRefreshGuard,
+  LocalAuthenticationGuard,
+  RegistrationData,
 } from '..';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthenticationController {
-  constructor(private readonly authenticationService: AuthenticationService) {}
+  constructor(
+    private readonly authenticationService: AuthenticationService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post('register')
   async register(@Body() registrationData: RegistrationData) {
     return this.authenticationService.register(registrationData);
   }
 
+  @Post('login')
   @HttpCode(200)
   @UseGuards(LocalAuthenticationGuard)
-  @Post('login')
   async logIn(@Req() { res, user }: AuthenticatedRequest) {
-    this.authenticationService.authenticateUser(res, user.id);
-
+    this.authenticationService.attachAccessToken(res, user.id);
+    const refreshToken = this.authenticationService.attachRefreshToken(
+      res,
+      user.id,
+    );
+    await this.usersService.setCurrentRefreshToken(refreshToken, user.id);
     return user;
   }
 
   /**
    * Returns the user authentication info.
    */
-  @UseGuards(JwtAuthenticationGuard)
   @Get()
+  @UseGuards(JwtAuthenticationGuard)
   authenticate(@Req() { user }: AuthenticatedRequest) {
     return user;
   }
 
-  @UseGuards(JwtAuthenticationGuard)
-  @HttpCode(200)
   @Post('logout')
-  async logOut(@Req() { res }: AuthenticatedRequest) {
-    return this.authenticationService.logoutUser(res);
+  @HttpCode(200)
+  @UseGuards(JwtAuthenticationGuard)
+  async logOut(@Req() { res, user }: AuthenticatedRequest) {
+    await this.usersService.removeRefreshToken(user.id);
+    this.authenticationService.logoutUser(res);
+    return null;
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Get('refresh')
+  refresh(@Req() { user, res }: AuthenticatedRequest) {
+    this.authenticationService.attachAccessToken(res, user.id);
+    return user;
   }
 }

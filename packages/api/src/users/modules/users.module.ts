@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { FilesModule, PrivateFilesModule } from 'src/files';
-
-import { UsersController, UsersService, User } from '..';
+import { User, UsersController, UsersService } from '..';
 
 @Module({
   controllers: [UsersController],

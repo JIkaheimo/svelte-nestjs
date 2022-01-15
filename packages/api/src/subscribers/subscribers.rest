@@ -1,0 +1,17 @@
+@baseUrl = http://localhost:3030/api/subscribers
+
+### GET SUBSCRIBERS ###
+# @name getSubscribers
+GET {{ baseUrl }} HTTP/1.1
+Set-Cookie: {{ authentication }}
+
+### CREATE A NEW SUBSCRIBER ###
+# @name createSubscriber
+POST {{ baseUrl }} HTTP/1.1
+Set-Cookie: {{  authentication }}
+Content-Type: application/json
+
+{
+  "email": "asd@asd.com",
+  "username": "asd"
+}

@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import ElasticModule from 'src/search/elastic/elastic.module';
-
-import { Post } from '../entities';
 import { CategoriesController, PostsController } from '../controllers';
-import CategoriesModule from './categories.module';
+import { Post } from '../entities';
 import { PostsSearchService, PostsService } from '../services';
+import CategoriesModule from './categories.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Post]), CategoriesModule, ElasticModule],
@@ -15,3 +13,5 @@ import { PostsSearchService, PostsService } from '../services';
   exports: [PostsService],
 })
 export class PostsModule {}
+
+export default PostsModule;

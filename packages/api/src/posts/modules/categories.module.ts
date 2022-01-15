@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { CategoriesController } from '../controllers';
 import { CategoriesService, Category } from '..';
+import { CategoriesController } from '../controllers';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],

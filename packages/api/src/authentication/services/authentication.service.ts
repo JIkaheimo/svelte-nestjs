@@ -1,18 +1,36 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
 import { Response } from 'express';
-
-import { UsersService, User } from 'src/users';
-
+import {
+  JWT_ACCESS_TOKEN_EXPIRATION_TIME,
+  JWT_ACCESS_TOKEN_SECRET,
+  JWT_REFRESH_TOKEN_EXPIRATION_TIME,
+  JWT_REFRESH_TOKEN_SECRET,
+} from 'src/config/constants';
+import { User, UsersService } from 'src/users';
 import { JwtPayload, RegistrationData } from '..';
 
 @Injectable()
 export class AuthenticationService {
+  private accessExpiration: number;
+  private accessSecret: string;
+  private refreshExpiration: number;
+  private refreshSecret: string;
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    this.accessSecret = configService.get(JWT_ACCESS_TOKEN_SECRET);
+    this.accessExpiration = configService.get(JWT_ACCESS_TOKEN_EXPIRATION_TIME);
+    this.refreshSecret = configService.get(JWT_REFRESH_TOKEN_SECRET);
+    this.refreshExpiration = configService.get(
+      JWT_REFRESH_TOKEN_EXPIRATION_TIME,
+    );
+  }
 
   /**
    * Registers or creates a new user.
@@ -39,13 +57,42 @@ export class AuthenticationService {
     return user;
   }
 
-  authenticateUser(response: Response, userId: User['id']): Response {
-    const token = this.jwtService.sign({ userId } as JwtPayload);
-    return response.cookie('Authentication', token);
+  /**
+   * Authenticates (or logins) the user.
+   */
+  attachAccessToken(response: Response, userId: User['id']) {
+    const token = this.jwtService.sign({ userId } as JwtPayload, {
+      secret: this.accessSecret,
+      expiresIn: this.accessExpiration,
+    });
+
+    response.cookie('Authentication', token, {
+      maxAge: this.accessExpiration,
+    });
+
+    return token;
   }
 
+  attachRefreshToken(response: Response, userId: User['id']) {
+    const payload: JwtPayload = { userId };
+
+    const token = this.jwtService.sign(payload, {
+      secret: this.refreshSecret,
+      expiresIn: this.refreshExpiration,
+    });
+
+    response.cookie('Refresh', token, {
+      maxAge: this.refreshExpiration,
+    });
+
+    return token;
+  }
+
+  /**
+   * Logouts the user.
+   */
   logoutUser(response: Response): Response {
-    return response.clearCookie('Authentication');
+    return response.clearCookie('Authentication').clearCookie('Refresh');
   }
 
   /**
@@ -57,7 +104,7 @@ export class AuthenticationService {
   private async verifyPassword(
     plainPassword: User['password'],
     hashedPassword: User['password'],
-  ) {
+  ): Promise<void> {
     const passwordsMatch = await compare(plainPassword, hashedPassword);
     if (!passwordsMatch) {
       throw new BadRequestException('Invalid login credentials.');

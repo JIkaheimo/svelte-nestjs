@@ -1,21 +1,28 @@
 import { Exclude } from 'class-transformer';
-import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
-
-import { BaseEntity } from 'src/base';
+import { BaseEntity } from 'src/core/entities';
+import { File, PrivateFile } from 'src/files';
 import { Post } from 'src/posts';
-import { PrivateFile, File } from 'src/files';
-
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { IUser } from '..';
 import Address from './address.entity';
 
 @Entity()
-export class User extends BaseEntity {
-  @Column({ nullable: false, unique: true })
+export class User extends BaseEntity implements IUser {
+  @Column({
+    unique: true,
+    nullable: false,
+  })
   email: string;
 
-  @Column({ nullable: false, unique: true })
+  @Column({
+    unique: true,
+    nullable: false,
+  })
   username: string;
 
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+  })
   @Exclude()
   password: string;
 
@@ -24,7 +31,8 @@ export class User extends BaseEntity {
     nullable: true,
   })
   @JoinColumn()
-  address?: Address;
+  @Exclude()
+  address?: Address | null;
 
   @OneToMany(() => Post, (post: Post) => post.author)
   posts: Post[];
@@ -34,11 +42,17 @@ export class User extends BaseEntity {
     nullable: true,
   })
   @JoinColumn()
-  public avatar?: File;
+  public avatar?: File | null;
 
   @Exclude()
   @OneToMany(() => PrivateFile, (file: PrivateFile) => file.owner)
   public files: PrivateFile[];
+
+  @Column({
+    nullable: true,
+  })
+  @Exclude()
+  public refreshToken?: string | null;
 }
 
 export default User;

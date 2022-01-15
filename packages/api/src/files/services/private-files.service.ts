@@ -1,20 +1,19 @@
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { BaseRepositoryService } from 'src/base';
-
+import { BaseRepositoryService } from 'src/core';
 import { PrivateFile } from '../entities';
-
 import {
-  IFilesService,
-  createFileDeleter,
-  createFileUploader,
-  DeleteFile,
-  UploadFile,
   createFileGetter,
-  GetFile,
+  createFileRemover,
+  createFileRemoverTransaction,
+  createFileUploader,
   createFileUrlGetter,
+  DeleteFile,
+  DeleteFileTransaction,
+  GetFile,
   GetFileUrl,
+  IFilesService,
+  UploadFile,
 } from './private';
 
 export class PrivateFilesService
@@ -37,5 +36,8 @@ export class PrivateFilesService
 
   uploadFile = createFileUploader(this) as UploadFile<PrivateFile>;
 
-  deleteFile = createFileDeleter(this) as DeleteFile<PrivateFile>;
+  deleteFile = createFileRemover(this) as DeleteFile<PrivateFile>;
+
+  deleteFileTransaction: DeleteFileTransaction<PrivateFile> =
+    createFileRemoverTransaction(this, PrivateFile);
 }

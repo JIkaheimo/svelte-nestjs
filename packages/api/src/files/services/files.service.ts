@@ -1,14 +1,15 @@
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseRepositoryService } from 'src/base';
+import { BaseRepositoryService } from 'src/core';
 import { File } from '../entities';
-
 import {
-  createFileDeleter,
   createFileGetter,
+  createFileRemover,
+  createFileRemoverTransaction,
   createFileUploader,
   createFileUrlGetter,
   DeleteFile,
+  DeleteFileTransaction,
   GetFile,
   GetFileUrl,
   IFilesService,
@@ -29,11 +30,14 @@ export class FilesService
     this.bucket = this.configService.get('AWS_FILE_BUCKET');
   }
 
-  getFile = createFileGetter(this) as GetFile<File>;
+  getFile: GetFile<File> = createFileGetter(this);
 
-  getFileUrl = createFileUrlGetter(this) as GetFileUrl<File>;
+  getFileUrl: GetFileUrl<File> = createFileUrlGetter(this);
 
-  uploadFile = createFileUploader(this) as UploadFile<File>;
+  uploadFile: UploadFile<File> = createFileUploader(this);
 
-  deleteFile = createFileDeleter(this) as DeleteFile<File>;
+  deleteFile: DeleteFile<File> = createFileRemover(this);
+
+  deleteFileTransaction: DeleteFileTransaction<File> =
+    createFileRemoverTransaction(this, File);
 }

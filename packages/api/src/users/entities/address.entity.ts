@@ -1,6 +1,5 @@
-import { BaseEntity } from 'src/base';
+import { BaseEntity } from 'src/core';
 import { Column, Entity, Index, OneToOne } from 'typeorm';
-
 import { User } from './user.entity';
 
 @Entity()
@@ -15,7 +14,7 @@ export class Address extends BaseEntity {
   @Column({ nullable: false })
   public country: string;
 
-  @OneToOne(() => User, (user: User) => user.address)
+  @OneToOne(() => User, (user: User) => user.address, { nullable: false })
   public user: User;
 }
 

@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/modules/users.module';
-import { ReportsModule } from './reports/modules/ReportsModule';
-import { AuthenticationModule } from './authentication/modules/AuthenticationModule';
-import { ServeStaticModule } from '@nestjs/serve-static';
-
-import * as path from 'path';
-import ExceptionsLoggerFilter from './utils/exceptions.logger.filter';
 import { APP_FILTER } from '@nestjs/core';
-import { PostsModule } from './posts/modules/posts.module';
-import DatabaseModule from './database';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
+import { AuthenticationModule } from './authentication/modules/authentication.module';
 import ConfigModule from './config';
+import DatabaseModule from './database';
+import { PostsModule } from './posts/modules/posts.module';
+import { ReportsModule } from './reports/modules/ReportsModule';
+import { SubscribersModule } from './subscribers';
+import { UsersModule } from './users/modules/users.module';
+import ExceptionsLoggerFilter from './utils/exceptions.logger.filter';
 
 @Module({
   imports: [
@@ -22,6 +22,7 @@ import ConfigModule from './config';
     UsersModule,
     ReportsModule,
     AuthenticationModule,
+    SubscribersModule,
   ],
   providers: [
     {

@@ -1,12 +1,12 @@
-import { AuthenticationService } from './authentication.service';
-import { User, UsersService } from 'src/users';
-import { JwtService } from '@nestjs/jwt';
-import { Response } from 'express';
-import { Test } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { mocks } from 'src/utils';
 import * as bcrypt from 'bcrypt';
+import { Response } from 'express';
+import { User, UsersService } from 'src/users';
+import { mocks } from 'src/utils';
+import { AuthenticationService } from './authentication.service';
 
 jest.mock('bcrypt');
 
@@ -66,7 +66,7 @@ describe('AuthenticationService', () => {
   describe('while authenticating an user', () => {
     it('should set the authentication header', async () => {
       const response = mockResponse();
-      await authenticationService.authenticateUser(response, 'UserID-12345');
+      await authenticationService.attachAccessToken(response, 12345);
       expect(response.cookie).toBeCalledWith(
         'Authentication',
         expect.any(String),

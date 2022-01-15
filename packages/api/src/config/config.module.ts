@@ -1,7 +1,12 @@
-import * as Joi from 'joi';
-
 import { Module } from '@nestjs/common';
 import { ConfigModule as BaseConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
+import {
+  JWT_ACCESS_TOKEN_EXPIRATION_TIME,
+  JWT_ACCESS_TOKEN_SECRET,
+  JWT_REFRESH_TOKEN_EXPIRATION_TIME,
+  JWT_REFRESH_TOKEN_SECRET,
+} from './constants';
 
 const awsConfigSchema = {
   AWS_REGION: Joi.string().required(),
@@ -12,7 +17,10 @@ const awsConfigSchema = {
 };
 
 const jwtConfigSchema = {
-  JWT_SECRET: Joi.string().required(),
+  [JWT_ACCESS_TOKEN_SECRET]: Joi.string().required(),
+  [JWT_ACCESS_TOKEN_EXPIRATION_TIME]: Joi.string().required(),
+  [JWT_REFRESH_TOKEN_SECRET]: Joi.string().required(),
+  [JWT_REFRESH_TOKEN_EXPIRATION_TIME]: Joi.string().required(),
 };
 
 const pglConfigSchema = {
@@ -20,7 +28,10 @@ const pglConfigSchema = {
   POSTGRES_PORT: Joi.number().required(),
   POSTGRES_USER: Joi.string().required(),
   POSTGRES_PASSWORD: Joi.string().required(),
-  POSTGRES_DB: global.isProduction() ? Joi.string() : Joi.string().allow(''),
+  POSTGRES_DB:
+    process.env.NODE_ENV === 'production'
+      ? Joi.string()
+      : Joi.string().allow(''),
 };
 
 @Module({
@@ -30,6 +41,7 @@ const pglConfigSchema = {
         ...awsConfigSchema,
         ...pglConfigSchema,
         ...jwtConfigSchema,
+        PORT: Joi.number(),
       }),
     }),
   ],

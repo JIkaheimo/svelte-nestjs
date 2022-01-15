@@ -1,5 +1,5 @@
-import BaseEntity from '../../base/entities/base.entity';
 import { Column, Entity, ManyToMany } from 'typeorm';
+import BaseEntity from '../../core/entities/base.entity';
 import Post from './post.entity';
 
 @Entity()

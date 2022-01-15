@@ -10,12 +10,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Express, Response } from 'express';
-
+import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/authentication';
 import { JwtAuthenticationGuard } from 'src/authentication/guards';
 import { File } from 'src/files';
-
 import { UsersService } from '../services';
 
 @Controller('users')

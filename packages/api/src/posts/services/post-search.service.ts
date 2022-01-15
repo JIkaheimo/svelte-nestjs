@@ -1,40 +1,127 @@
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
+import { Post, PostSearch, PostSearchResult } from '..';
 
-import { PostSearch, PostSearchResult, Post } from '..';
+const index = 'posts';
 
 @Injectable()
 export class PostsSearchService {
-  index = 'posts';
-
-  constructor(private readonly elasticsearchService: ElasticsearchService) {}
+  constructor(private readonly searchService: ElasticsearchService) {}
 
   async indexPost(post: Post) {
-    return this.elasticsearchService.index<PostSearchResult, PostSearch>({
-      index: this.index,
+    await this.searchService.index<PostSearchResult, PostSearch>({
+      index,
       body: {
         id: post.id,
         title: post.title,
         content: post.content,
+        paragraphs: post.paragraphs,
         authorId: post.author.id,
       },
     });
+    return;
   }
 
-  async search(text: string) {
-    const { body } = await this.elasticsearchService.search<PostSearchResult>({
-      index: this.index,
+  async search(
+    text: Post['title'] | Post['content'],
+    offset?: number,
+    limit?: number,
+    startId = 0,
+  ) {
+    let separateCount = 0;
+    if (startId) {
+      separateCount = await this.count(text, ['title', 'paragraphs']);
+    }
+    const { body } = await this.searchService.search<PostSearchResult>({
+      index,
+      from: offset,
+      size: limit,
       body: {
         query: {
-          multi_match: {
-            query: text,
-            fields: ['title', 'content'],
+          bool: {
+            should: {
+              multi_match: {
+                query: text,
+                fields: ['title', 'paragraphs'],
+              },
+            },
+            filter: {
+              range: {
+                id: {
+                  gt: startId,
+                },
+              },
+            },
+          },
+        },
+        sort: {
+          id: {
+            order: 'asc',
           },
         },
       },
     });
-    const hits = body.hits.hits;
-    return hits.map((item) => item._source);
+
+    return {
+      count: startId ? separateCount : body.hits.total,
+      results: body.hits.hits.map((item) => item._source),
+    };
+  }
+
+  async count(query: string, fields: string[]) {
+    const { body } = await this.searchService.count({
+      index,
+      body: {
+        query: {
+          multi_match: {
+            query,
+            fields,
+          },
+        },
+      },
+    });
+    return body.count;
+  }
+
+  async update(post: Post) {
+    await post.load('author');
+    const script = Object.entries({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+      authorId: post.author.id,
+      paragraphs: post.paragraphs,
+    }).reduce((result, [key, value]) => {
+      return `${result} ctx._source.${key}='${value}';`;
+    }, '');
+
+    return this.searchService.updateByQuery({
+      index: index,
+      body: {
+        query: {
+          match: {
+            id: post.id,
+          },
+        },
+        script: {
+          inline: script,
+        },
+      },
+    });
+  }
+
+  async remove(postId: Post['id']): Promise<void> {
+    await this.searchService.deleteByQuery({
+      index,
+      body: {
+        query: {
+          match: {
+            id: postId,
+          },
+        },
+      },
+    });
+    return;
   }
 }
 

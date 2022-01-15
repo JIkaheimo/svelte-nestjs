@@ -1,18 +1,15 @@
-import * as request from 'supertest';
-
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { ConfigServiceMock, JwtServiceMock } from 'src/utils/mocks';
-
-import { RegistrationData } from './dtos/registration-data.dto';
-import { AuthenticationModule } from './modules/AuthenticationModule';
-import { entities, User } from 'src/entities';
-import { getRepository, Repository } from 'typeorm';
 import setupApp from 'src/app';
+import { entities, User } from 'src/entities';
+import { ConfigServiceMock, JwtServiceMock } from 'src/utils/mocks';
+import * as request from 'supertest';
+import { getRepository, Repository } from 'typeorm';
+import { RegistrationData } from './dtos/registration-data.dto';
+import { AuthenticationModule } from './modules/authentication.module';
 
 let app: INestApplication;
 let userRepository: Repository<User>;
@@ -81,6 +78,8 @@ describe('when registering', () => {
         })
         .expect('Content-Type', /json/)
         .expect(HttpStatus.BAD_REQUEST);
+
+      return response;
     });
   });
 });

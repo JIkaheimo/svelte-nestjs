@@ -1,17 +1,38 @@
-import BaseEntity from 'src/base/entities/base.entity';
+import BaseEntity from 'src/core/entities/base.entity';
 import { User } from 'src/users/entities';
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+} from 'typeorm';
 import Category from './category.entity';
 
 @Entity()
 export class Post extends BaseEntity {
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+  })
   title: string;
 
-  @Column({ nullable: false, type: 'text' })
+  @Column('text', {
+    nullable: false,
+  })
   content: string;
 
-  @ManyToOne(() => User, (author: User) => author.posts, { nullable: false })
+  @Column('text', {
+    array: true,
+    nullable: true,
+    default: [],
+  })
+  paragraphs?: string[];
+
+  @Index('post_authorId_index')
+  @ManyToOne(() => User, (author: User) => author.posts, {
+    nullable: false,
+  })
   author: User;
 
   @ManyToMany(() => Category, (category) => category.posts)
