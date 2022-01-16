@@ -19,22 +19,17 @@ export class UniqueOnDatabaseExistConstraint
   }
 }
 
-export function UniqueOnDatabase(
-  entity: unknown,
-  validationOptions?: ValidationOptions,
-) {
-  validationOptions = {
-    ...{ message: '$property already exists' },
-    ...validationOptions,
-  };
-  return function (object: unknown, propertyName: string) {
+export const UniqueOnDatabase =
+  (entity: unknown, validationOptions?: ValidationOptions) =>
+  (object: unknown, propertyName: string) => {
     object[`class_entity_${propertyName}`] = entity;
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
-      options: validationOptions,
-      constraints: [],
+      options: {
+        message: '$property already exist',
+        ...validationOptions,
+      },
       validator: UniqueOnDatabaseExistConstraint,
     });
   };
-}

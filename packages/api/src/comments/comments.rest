@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:3030/api/comments 
+@postId = {{ createComment.response.body.$.id }}
+
+
+### GET COMMENTS ###
+# @name getComments
+GET {{ baseUrl }} HTTP/1.1
+Set-Cookie: {{ authentication }}
+
+### CREATE COMMENT ###
+# @name createComment
+POST {{ baseUrl }} HTTP/1.1
+Set-Cookie: {{ authentication }}
+Content-Type: application/json
+
+{
+  "postId": 1,
+  "content": "asasdasd"
+} 
+
+### GET POST ###
+# @name getPost
+
+GET {{ baseUrl }}/{{ postId }} HTTP/1.1
+Set-Cookie: {{ authentication }}
+
+### UPDATE POST ###
+# @name updatePost
+PUT {{ baseUrl }}/{{ postId }} HTTP/1.1
+Content-Type: application/json
+Set-Cookie: {{ authentication }}
+
+{
+  "title": "Title",
+  "content": "addasd"
+}
+
+### SEARCH POSTS ###
+# @name searchPosts
+GET {{  baseUrl }}?search=Title HTTP/1.1
+Set-Cookie: {{ authentication }}
+
+### DELETE POST ###
+# @name deletePost
+DELETE {{ baseUrl }}/{{ postId }} HTTP/1.1

@@ -3,6 +3,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { AuthenticationModule } from './authentication/modules/authentication.module';
+import { CommentsModule } from './comments/modules/comments.module';
 import ConfigModule from './config';
 import DatabaseModule from './database';
 import { PostsModule } from './posts/modules/posts.module';
@@ -20,6 +21,7 @@ import ExceptionsLoggerFilter from './utils/exceptions.logger.filter';
     ConfigModule,
     PostsModule,
     UsersModule,
+    CommentsModule,
     ReportsModule,
     AuthenticationModule,
     SubscribersModule,
