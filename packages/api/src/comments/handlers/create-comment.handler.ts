@@ -20,3 +20,5 @@ export class CreateCommentHandler
     return newPost;
   }
 }
+
+export default CreateCommentHandler;

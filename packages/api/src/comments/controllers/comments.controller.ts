@@ -1,16 +1,33 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   AuthenticatedRequest,
   JwtAuthenticationGuard,
 } from 'src/authentication';
-import CreateCommentCommand from '../commands/create-comment.command';
-import CommentCreate from '../dtos/comment-create.dto';
+import { CreateCommentCommand } from '../commands';
+import { CommentCreate } from '../dtos';
+import { GetCommentsQuery } from '../queries';
 
 @Controller('comments')
 @UseGuards(JwtAuthenticationGuard)
-export default class CommentsController {
-  constructor(private commandBus: CommandBus) {}
+export class CommentsController {
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
+
+  @Get()
+  async getComments(@Query() { postId }) {
+    return this.queryBus.execute(new GetCommentsQuery(postId));
+  }
 
   @Post()
   async createComment(
@@ -20,3 +37,5 @@ export default class CommentsController {
     return this.commandBus.execute(new CreateCommentCommand(comment, user));
   }
 }
+
+export default CommentsController;
