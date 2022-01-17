@@ -1,5 +1,6 @@
 import {
   Body,
+  CacheInterceptor,
   Controller,
   Delete,
   Get,
@@ -10,6 +11,7 @@ import {
   Query,
   Req,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
@@ -28,6 +30,7 @@ export class PostsController {
 
   @ApiOperation({ description: 'Get all posts.' })
   @Get()
+  @UseInterceptors(CacheInterceptor)
   getPosts(
     @Query('search') search: string,
     @Query() pagination: PaginationParams,

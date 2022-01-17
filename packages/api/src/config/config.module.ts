@@ -34,6 +34,11 @@ const pglConfigSchema = {
       : Joi.string().allow(''),
 };
 
+const redisConfigSchema = {
+  REDIS_HOST: Joi.string().required(),
+  REDIS_PORT: Joi.number().required(),
+};
+
 @Module({
   imports: [
     BaseConfigModule.forRoot({
@@ -41,6 +46,7 @@ const pglConfigSchema = {
         ...awsConfigSchema,
         ...pglConfigSchema,
         ...jwtConfigSchema,
+        ...redisConfigSchema,
         PORT: Joi.number(),
       }),
     }),
