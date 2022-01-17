@@ -1,7 +1,7 @@
 import {
   JWT_ACCESS_TOKEN_EXPIRATION_TIME,
   JWT_ACCESS_TOKEN_SECRET,
-} from 'src/config';
+} from 'src/config/schemas';
 
 export const ConfigServiceMock = {
   get(key: string) {

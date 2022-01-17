@@ -4,7 +4,7 @@ import {
   AWS_ACCESS_KEY_ID,
   AWS_REGION,
   AWS_SECRET_ACCESS_KEY,
-} from 'src/config';
+} from 'src/config/schemas';
 
 const s3Client = new S3({
   region: process.env[AWS_REGION],

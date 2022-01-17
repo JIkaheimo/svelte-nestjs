@@ -5,6 +5,7 @@ import * as redisStore from 'cache-manager-redis-store';
 import ElasticModule from 'src/search/elastic/elastic.module';
 import { CategoriesController, PostsController } from '../controllers';
 import { Post } from '../entities';
+import { PostsResolver } from '../resolvers';
 import { PostsSearchService, PostsService } from '../services';
 import CategoriesModule from './categories.module';
 
@@ -24,7 +25,7 @@ import CategoriesModule from './categories.module';
       }),
     }),
   ],
-  providers: [PostsService, PostsSearchService],
+  providers: [PostsService, PostsSearchService, PostsResolver],
   controllers: [CategoriesController, PostsController],
   exports: [PostsService],
 })

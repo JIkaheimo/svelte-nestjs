@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule as BaseConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { awsConfigSchema } from './aws-config.schema';
-import { jwtConfigSchema } from './jwt-config.schema';
-import { mailConfigSchema } from './mail-config.schema';
-import { pglConfigSchema } from './postgres-config.schema';
-import { redisConfigSchema } from './redis-config.schema';
+import {
+  awsConfigSchema,
+  graphqlConfigSchema,
+  jwtConfigSchema,
+  mailConfigSchema,
+  pglConfigSchema,
+  redisConfigSchema,
+} from './schemas';
 
 @Module({
   imports: [
@@ -17,6 +20,7 @@ import { redisConfigSchema } from './redis-config.schema';
         ...jwtConfigSchema,
         ...redisConfigSchema,
         ...mailConfigSchema,
+        ...graphqlConfigSchema,
       }),
     }),
   ],

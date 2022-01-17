@@ -14,7 +14,6 @@ export class PostsSearchService {
       body: {
         id: post.id,
         title: post.title,
-        content: post.content,
         paragraphs: post.paragraphs,
         authorId: post.author.id,
       },
@@ -22,12 +21,7 @@ export class PostsSearchService {
     return;
   }
 
-  async search(
-    text: Post['title'] | Post['content'],
-    offset?: number,
-    limit?: number,
-    startId = 0,
-  ) {
+  async search(text: string, offset?: number, limit?: number, startId = 0) {
     let separateCount = 0;
     if (startId) {
       separateCount = await this.count(text, ['title', 'paragraphs']);
@@ -88,7 +82,6 @@ export class PostsSearchService {
     const script = Object.entries({
       id: post.id,
       title: post.title,
-      content: post.content,
       authorId: post.author.id,
       paragraphs: post.paragraphs,
     }).reduce((result, [key, value]) => {

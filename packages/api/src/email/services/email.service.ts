@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createTransport } from 'nodemailer';
 import * as Mail from 'nodemailer/lib/mailer';
-import { EMAIL_PASSWORD, EMAIL_SERVICE, EMAIL_USER } from 'src/config';
+import { EMAIL_PASSWORD, EMAIL_SERVICE, EMAIL_USER } from 'src/config/schemas';
 
 @Injectable()
 export class EmailService {

@@ -7,7 +7,7 @@ import {
   POSTGRES_PASSWORD,
   POSTGRES_PORT,
   POSTGRES_USER,
-} from 'src/config';
+} from 'src/config/schemas';
 import { entities } from 'src/entities';
 
 @Module({

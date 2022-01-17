@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AWS_PRIVATE_FILE_BUCKET } from 'src/config';
+import { AWS_PRIVATE_FILE_BUCKET } from 'src/config/schemas';
 import { BaseRepositoryService } from 'src/core';
 import { PrivateFile } from '../entities';
 import {

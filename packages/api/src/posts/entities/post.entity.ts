@@ -20,11 +20,6 @@ export class Post extends BaseEntity {
   title: string;
 
   @Column('text', {
-    nullable: false,
-  })
-  content: string;
-
-  @Column('text', {
     array: true,
     nullable: true,
     default: [],

@@ -15,7 +15,10 @@ Content-Type: application/json
 
 {
   "title": "Title",
-  "content": "asasdasd"
+  "paragraphs": [
+    "asd",
+    "sad"
+  ]
 } 
 
 ### GET POST ###
