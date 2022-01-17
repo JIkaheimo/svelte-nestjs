@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AWS_PRIVATE_FILE_BUCKET } from 'src/config';
 import { BaseRepositoryService } from 'src/core';
 import { PrivateFile } from '../entities';
 import {
@@ -27,7 +28,7 @@ export class PrivateFilesService
     private readonly configService: ConfigService,
   ) {
     super(repository);
-    this.bucket = this.configService.get('AWS_PRIVATE_FILE_BUCKET');
+    this.bucket = this.configService.get(AWS_PRIVATE_FILE_BUCKET);
   }
 
   getFile = createFileGetter(this) as GetFile<PrivateFile>;

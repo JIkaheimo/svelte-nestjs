@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AWS_FILE_BUCKET } from 'src/config';
 import { BaseRepositoryService } from 'src/core';
 import { File } from '../entities';
 import {
@@ -27,7 +28,7 @@ export class FilesService
     private readonly configService: ConfigService,
   ) {
     super(repository);
-    this.bucket = this.configService.get('AWS_FILE_BUCKET');
+    this.bucket = this.configService.get(AWS_FILE_BUCKET);
   }
 
   getFile: GetFile<File> = createFileGetter(this);

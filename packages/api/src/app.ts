@@ -6,7 +6,7 @@ import { ValidationPipe } from './core/pipe/validation.pipe';
 export const setupApp = (app: INestApplication): INestApplication =>
   app
     .use(cookieParser())
-    .useGlobalPipes(new ValidationPipe())
+    .useGlobalPipes(new ValidationPipe({ transform: true }))
     .useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
 export default setupApp;

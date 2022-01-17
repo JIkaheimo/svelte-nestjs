@@ -8,7 +8,7 @@ import {
   JWT_ACCESS_TOKEN_SECRET,
   JWT_REFRESH_TOKEN_EXPIRATION_TIME,
   JWT_REFRESH_TOKEN_SECRET,
-} from 'src/config/constants';
+} from 'src/config';
 import { User, UsersService } from 'src/users';
 import { JwtPayload, RegistrationData } from '..';
 
