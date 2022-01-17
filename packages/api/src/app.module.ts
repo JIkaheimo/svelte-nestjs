@@ -4,6 +4,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import * as path from 'path';
 import { AuthenticationModule } from './authentication/modules';
 import { CommentsModule } from './comments/modules/comments.module';
@@ -13,6 +14,7 @@ import {
 } from './config';
 import DatabaseModule from './database';
 import { PostsModule } from './posts/modules';
+import { PubSubModule } from './pub-sub';
 import { ReportsModule } from './reports/modules';
 import { SubscribersModule } from './subscribers';
 import { UsersModule } from './users/modules';
@@ -32,6 +34,7 @@ import ExceptionsLoggerFilter from './utils/exceptions.logger.filter';
     ReportsModule,
     AuthenticationModule,
     SubscribersModule,
+    PubSubModule,
     ScheduleModule.forRoot(),
     GraphQLModule.forRootAsync({
       imports: [ConfigModule],
@@ -40,6 +43,14 @@ import ExceptionsLoggerFilter from './utils/exceptions.logger.filter';
         playground: !!configService.get(GRAPHQL_PLAYGROUND),
         autoSchemaFile: path.join(process.cwd(), 'schema.gql'),
         sortSchema: true,
+        installSubscriptionHandlers: true,
+        formatError: (error: GraphQLError) => {
+          const graphQLFormattedError: GraphQLFormattedError = {
+            message:
+              error.extensions?.exception?.response?.message || error.message,
+          };
+          return graphQLFormattedError;
+        },
       }),
     }),
   ],

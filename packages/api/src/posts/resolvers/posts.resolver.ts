@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
   Context,
@@ -6,6 +6,7 @@ import {
   Mutation,
   Query,
   Resolver,
+  Subscription,
 } from '@nestjs/graphql';
 import { GraphQLResolveInfo } from 'graphql';
 import {
@@ -13,17 +14,20 @@ import {
   ResolveTree,
   simplifyParsedResolveInfoFragmentWithType,
 } from 'graphql-parse-resolve-info';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { GraphqlJwtAuthenticationGuard } from 'src/authentication';
+import { PUB_SUB } from 'src/pub-sub';
 import { CreatePostInput } from '../inputs';
-import PostsLoaders from '../loaders/posts.loaders';
 import { Post } from '../models';
 import { PostsService } from '../services';
+
+const POST_ADDED_EVENT = 'postAdded';
 
 @Resolver(() => Post)
 export class PostsResolver {
   constructor(
-    private readonly postsService: PostsService,
-    private postsLoaders: PostsLoaders,
+    private readonly postsService: PostsService, // private postsLoaders: PostsLoaders,
+    @Inject(PUB_SUB) private pubSub: RedisPubSub,
   ) {}
 
   @Query(() => [Post])
@@ -55,9 +59,26 @@ export class PostsResolver {
     @Args('input') postData: CreatePostInput,
     @Context() { req },
   ) {
-    return await this.postsService.create({
+    const newPost = await this.postsService.create({
       ...postData,
       author: req.user,
     });
+    this.pubSub.publish(POST_ADDED_EVENT, { postAdded: newPost });
+    return newPost;
+  }
+
+  @Subscription(() => Post, {
+    filter: function (this: PostsResolver, payload, variables) {
+      return true; //payload.postAdded.title === 'Hello world!';
+    },
+    resolve: function (this: PostsResolver, value) {
+      return {
+        ...value.postAdded,
+        title: `Title: ${value.postAdded.title}`,
+      };
+    },
+  })
+  postAdded() {
+    return this.pubSub.asyncIterator(POST_ADDED_EVENT);
   }
 }

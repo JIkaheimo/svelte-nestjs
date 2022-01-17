@@ -1,6 +1,7 @@
 import {
   BaseEntity as Base,
   CreateDateColumn,
+  DeleteDateColumn,
   getConnection,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -11,11 +12,14 @@ export abstract class BaseEntity extends Base {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  readonly createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  readonly updatedAt: Date;
+
+  @DeleteDateColumn()
+  readonly deletedAt: Date;
 
   async load(relations: string | string[]): Promise<this> {
     const model = this.constructor.name;

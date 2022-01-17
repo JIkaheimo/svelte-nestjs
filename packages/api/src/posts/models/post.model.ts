@@ -17,4 +17,7 @@ export class Post {
 
   @Field()
   author: User;
+
+  @Field()
+  createdAt: Date;
 }

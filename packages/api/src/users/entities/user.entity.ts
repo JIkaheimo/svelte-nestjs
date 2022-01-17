@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Role } from 'src/authentication/enums';
 import { BaseEntity } from 'src/core/entities';
 import { File, PrivateFile } from 'src/files';
 import { Post } from 'src/posts';
@@ -53,6 +54,13 @@ export class User extends BaseEntity implements IUser {
   })
   @Exclude()
   public refreshToken?: string | null;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.User,
+  })
+  public role: Role;
 }
 
 export default User;

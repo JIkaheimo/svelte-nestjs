@@ -7,6 +7,11 @@ input CreatePostInput {
   title: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
   createPost(input: CreatePostInput!): Post!
 }
@@ -14,6 +19,7 @@ type Mutation {
 type Post {
   author: User!
   authorId: Int!
+  createdAt: DateTime!
   id: Int!
   paragraphs: [String!]!
   title: String!
@@ -21,6 +27,10 @@ type Post {
 
 type Query {
   posts: [Post!]!
+}
+
+type Subscription {
+  postAdded: Post!
 }
 
 type User {

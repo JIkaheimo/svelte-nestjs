@@ -87,8 +87,15 @@ export abstract class BaseRepositoryService<Entity extends BaseEntity>
    * Deletes the entity with the given id.
    */
   async delete(id: Entity['id']) {
-    const deleteResponse = await this.repository.delete(id);
+    const deleteResponse = await this.repository.softDelete(id);
     if (!deleteResponse.affected) {
+      throw new EntityNotFound(this.repository);
+    }
+  }
+
+  async restore(id: Entity['id']) {
+    const restoreResponse = await this.repository.restore(id);
+    if (!restoreResponse.affected) {
       throw new EntityNotFound(this.repository);
     }
   }
