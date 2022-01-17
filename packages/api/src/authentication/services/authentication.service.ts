@@ -20,16 +20,14 @@ export class AuthenticationService {
   private refreshSecret: string;
 
   constructor(
-    private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
+    private readonly users: UsersService,
+    private readonly jwt: JwtService,
+    private readonly config: ConfigService,
   ) {
-    this.accessSecret = configService.get(JWT_ACCESS_TOKEN_SECRET);
-    this.accessExpiration = configService.get(JWT_ACCESS_TOKEN_EXPIRATION_TIME);
-    this.refreshSecret = configService.get(JWT_REFRESH_TOKEN_SECRET);
-    this.refreshExpiration = configService.get(
-      JWT_REFRESH_TOKEN_EXPIRATION_TIME,
-    );
+    this.accessSecret = config.get(JWT_ACCESS_TOKEN_SECRET);
+    this.accessExpiration = config.get(JWT_ACCESS_TOKEN_EXPIRATION_TIME);
+    this.refreshSecret = config.get(JWT_REFRESH_TOKEN_SECRET);
+    this.refreshExpiration = config.get(JWT_REFRESH_TOKEN_EXPIRATION_TIME);
   }
 
   /**
@@ -37,7 +35,7 @@ export class AuthenticationService {
    */
   async register(registrationData: RegistrationData) {
     const passwordHash = await hash(registrationData.password, 10);
-    return await this.usersService.create({
+    return await this.users.create({
       ...registrationData,
       password: passwordHash,
     });
@@ -49,7 +47,7 @@ export class AuthenticationService {
    * @throws {BadRequestException}
    */
   async getAuthenticatedUser(email: User['email'], password: User['password']) {
-    const user = await this.usersService.findByEmail(email);
+    const user = await this.users.findByEmail(email);
     if (!user) {
       throw new BadRequestException('Invalid login credentials.');
     }
@@ -61,7 +59,7 @@ export class AuthenticationService {
    * Authenticates (or logins) the user.
    */
   attachAccessToken(response: Response, userId: User['id']) {
-    const token = this.jwtService.sign({ userId } as JwtPayload, {
+    const token = this.jwt.sign({ userId } as JwtPayload, {
       secret: this.accessSecret,
       expiresIn: this.accessExpiration,
     });
@@ -73,10 +71,20 @@ export class AuthenticationService {
     return token;
   }
 
+  async getUserFromAuthenticationToken(token: string): Promise<User | null> {
+    const { userId } = this.jwt.verify<JwtPayload>(token, {
+      secret: this.config.get(JWT_ACCESS_TOKEN_SECRET),
+    });
+
+    if (!userId) return null;
+
+    return this.users.findById(userId);
+  }
+
   attachRefreshToken(response: Response, userId: User['id']) {
     const payload: JwtPayload = { userId };
 
-    const token = this.jwtService.sign(payload, {
+    const token = this.jwt.sign(payload, {
       secret: this.refreshSecret,
       expiresIn: this.refreshExpiration,
     });
