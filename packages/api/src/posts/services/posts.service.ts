@@ -47,6 +47,12 @@ export class PostsService extends BaseRepositoryService<Post> {
       [paragraph],
     );
   }
+
+  async getPostsWithAuthors(pagination?: PaginationParams) {
+    return this.getAll(pagination, {
+      relations: ['author'],
+    });
+  }
 }
 
 export default PostsService;

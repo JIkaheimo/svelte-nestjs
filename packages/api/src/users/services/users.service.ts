@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { BaseRepositoryService } from 'src/core';
 import { File, FilesService, PrivateFilesService } from 'src/files';
-import { getConnection } from 'typeorm';
+import { getConnection, In } from 'typeorm';
 import { User } from '../entities';
 
 export class UsersService extends BaseRepositoryService<User> {
@@ -20,6 +20,12 @@ export class UsersService extends BaseRepositoryService<User> {
    */
   async findByEmail(email: User['email']): Promise<User> {
     return (await this.repository.findOne({ email })) ?? null;
+  }
+
+  async getByIds(ids: [User['id']]) {
+    return this.repository.find({
+      where: { id: In(ids) },
+    });
   }
 
   async addPrivateFile(user: User, file: Express.Multer.File) {

@@ -24,6 +24,7 @@ export abstract class BaseRepositoryService<Entity extends BaseEntity>
       limit: null,
       startId: null,
     },
+    customOptions?: FindManyOptions<Entity>,
   ) {
     const where: FindManyOptions<Entity>['where'] = {};
     let separateCount = 0;
@@ -32,6 +33,7 @@ export abstract class BaseRepositoryService<Entity extends BaseEntity>
       separateCount = await this.repository.count();
     }
     const options: FindManyOptions = {
+      ...customOptions,
       where,
       skip: offset,
       take: limit,

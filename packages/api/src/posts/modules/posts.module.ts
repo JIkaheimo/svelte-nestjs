@@ -3,8 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as redisStore from 'cache-manager-redis-store';
 import ElasticModule from 'src/search/elastic/elastic.module';
+import { UsersModule } from 'src/users';
 import { CategoriesController, PostsController } from '../controllers';
 import { Post } from '../entities';
+import PostsLoaders from '../loaders/posts.loaders';
 import { PostsResolver } from '../resolvers';
 import { PostsSearchService, PostsService } from '../services';
 import CategoriesModule from './categories.module';
@@ -13,6 +15,7 @@ import CategoriesModule from './categories.module';
   imports: [
     TypeOrmModule.forFeature([Post]),
     CategoriesModule,
+    UsersModule,
     ElasticModule,
     CacheModule.registerAsync({
       imports: [ConfigModule],
@@ -25,7 +28,7 @@ import CategoriesModule from './categories.module';
       }),
     }),
   ],
-  providers: [PostsService, PostsSearchService, PostsResolver],
+  providers: [PostsService, PostsSearchService, PostsResolver, PostsLoaders],
   controllers: [CategoriesController, PostsController],
   exports: [PostsService],
 })

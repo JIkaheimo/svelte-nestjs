@@ -9,11 +9,13 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  RelationId,
 } from 'typeorm';
+import { IPost } from '../types';
 import Category from './category.entity';
 
 @Entity()
-export class Post extends BaseEntity {
+export class Post extends BaseEntity implements IPost {
   @Column({
     nullable: false,
   })
@@ -31,6 +33,8 @@ export class Post extends BaseEntity {
     nullable: false,
   })
   author: User;
+  @RelationId((post: Post) => post.author)
+  authorId: number;
 
   @ManyToMany(() => Category, (category) => category.posts)
   @JoinTable()

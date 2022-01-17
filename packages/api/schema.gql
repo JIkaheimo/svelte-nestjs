@@ -12,6 +12,8 @@ type Mutation {
 }
 
 type Post {
+  author: User!
+  authorId: Int!
   id: Int!
   paragraphs: [String!]!
   title: String!
@@ -19,4 +21,10 @@ type Post {
 
 type Query {
   posts: [Post!]!
+}
+
+type User {
+  email: String!
+  id: Int!
+  username: String!
 }
