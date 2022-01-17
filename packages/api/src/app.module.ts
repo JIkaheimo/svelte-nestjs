@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { AuthenticationModule } from './authentication/modules/authentication.module';
@@ -25,6 +26,7 @@ import ExceptionsLoggerFilter from './utils/exceptions.logger.filter';
     ReportsModule,
     AuthenticationModule,
     SubscribersModule,
+    ScheduleModule.forRoot(),
   ],
   providers: [
     {
