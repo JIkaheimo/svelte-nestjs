@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Comment } from 'src/comments/entities';
 import BaseEntity from 'src/core/entities/base.entity';
 import { User } from 'src/users/entities';
@@ -16,18 +17,21 @@ import Category from './category.entity';
 
 @Entity()
 export class Post extends BaseEntity implements IPost {
+  @ApiProperty()
   @Column({
     nullable: false,
   })
   title: string;
 
+  @ApiProperty()
   @Column('text', {
     array: true,
     nullable: true,
     default: [],
   })
-  paragraphs?: string[];
+  paragraphs: string[];
 
+  @ApiProperty()
   @Index('post_authorId_index')
   @ManyToOne(() => User, (author: User) => author.posts, {
     nullable: false,

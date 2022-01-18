@@ -10,12 +10,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/authentication';
 import { JwtAuthenticationGuard } from 'src/authentication/guards';
 import { File } from 'src/files';
 import { UsersService } from '../services';
 
+@ApiTags('users')
 @Controller('users')
 @UseGuards(JwtAuthenticationGuard)
 export class UsersController {

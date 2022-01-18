@@ -1,1 +1,1 @@
-export * from './ReportsModule';
+export * from './reports.module';

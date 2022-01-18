@@ -1,10 +1,10 @@
 import { Exclude } from 'class-transformer';
 import { Role } from 'src/authentication/enums';
-import { BaseEntity } from 'src/core/entities';
+import { BaseEntity } from 'src/core';
 import { File, PrivateFile } from 'src/files';
 import { Post } from 'src/posts';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
-import { IUser } from '..';
+import { IUser } from '../types';
 import Address from './address.entity';
 
 @Entity()
@@ -43,24 +43,24 @@ export class User extends BaseEntity implements IUser {
     nullable: true,
   })
   @JoinColumn()
-  public avatar?: File | null;
+  avatar?: File | null;
 
   @Exclude()
   @OneToMany(() => PrivateFile, (file: PrivateFile) => file.owner)
-  public files: PrivateFile[];
+  files: PrivateFile[];
 
   @Column({
     nullable: true,
   })
   @Exclude()
-  public refreshToken?: string | null;
+  refreshToken?: string | null;
 
   @Column({
     type: 'enum',
     enum: Role,
     default: Role.User,
   })
-  public role: Role;
+  role: Role;
 }
 
 export default User;

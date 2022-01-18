@@ -10,7 +10,7 @@ import { RelationMetadata } from 'typeorm/metadata/RelationMetadata';
 
 export abstract class BaseEntity extends Base {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   readonly createdAt: Date;

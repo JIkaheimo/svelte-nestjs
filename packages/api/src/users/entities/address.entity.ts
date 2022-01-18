@@ -5,16 +5,24 @@ import { User } from './user.entity';
 @Entity()
 @Index(['street', 'city', 'country'], { unique: true })
 export class Address extends BaseEntity {
-  @Column({ nullable: true })
-  public street?: string;
+  @Column({
+    nullable: true,
+  })
+  public street?: string | null;
 
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+  })
   public city: string;
 
-  @Column({ nullable: false })
+  @Column({
+    nullable: false,
+  })
   public country: string;
 
-  @OneToOne(() => User, (user: User) => user.address, { nullable: false })
+  @OneToOne(() => User, (user: User) => user.address, {
+    nullable: false,
+  })
   public user: User;
 }
 

@@ -1,11 +1,10 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { BaseModel } from 'src/core';
 import { User } from 'src/users/models';
+import { IPost } from '../types';
 
 @ObjectType()
-export class Post {
-  @Field(() => Int)
-  id: number;
-
+export class Post extends BaseModel implements IPost {
   @Field()
   title: string;
 
@@ -17,7 +16,4 @@ export class Post {
 
   @Field()
   author: User;
-
-  @Field()
-  createdAt: Date;
 }

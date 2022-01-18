@@ -20,9 +20,11 @@ type Post {
   author: User!
   authorId: Int!
   createdAt: DateTime!
+  deletedAt: DateTime
   id: Int!
   paragraphs: [String!]!
   title: String!
+  updatedAt: DateTime!
 }
 
 type Query {

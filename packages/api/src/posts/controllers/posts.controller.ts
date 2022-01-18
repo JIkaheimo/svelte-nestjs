@@ -13,7 +13,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   AuthenticatedRequest,
   JwtAuthenticationGuard,
@@ -48,7 +48,10 @@ export class PostsController {
     return this.postsService.findById(id, { relations: ['author'] });
   }
 
-  @ApiOperation({ description: 'Create a new post' })
+  @ApiCreatedResponse({
+    description: 'The post has been successfully created.',
+    type: Post,
+  })
   @Post()
   createPost(@Body() post: PostCreate, @Req() req: AuthenticatedRequest) {
     return this.postsService.create({ ...post, author: req.user });
